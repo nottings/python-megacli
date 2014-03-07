@@ -6,8 +6,7 @@ setup(name='megacli',
         version='1.0',
         description='Python module for the abstraction of MegaCli commands',
         author='Scott Nottingham',
-        author_email='scott.nottingham@imc-chicago.com',
-        download_url='svn+ssh://svn/space/svn/linux-tools/system/megacli',
+        author_email='scott.nottingham@gmail.com',
         py_modules=['megacli'],
         )
 

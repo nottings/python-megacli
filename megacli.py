@@ -314,6 +314,17 @@ class PhysicalDevice:
         megacli(args)
         self.reload()
 
+    def clear_drive(self):
+        """ Clear drive contents """
+        args = '-PDClear -Start -PhysDrv [%i:%i] -a%i' % (self.enclosure_id, self.slot_id, self.adapter_id)
+        megacli(args)
+        self.reload()
+
+    def show_clear_progress(self):
+        """ Show progresss of clear operation """
+        args = '-PDClear -ShowProg -PhysDrv [%i:%i] -a%i' % (self.enclosure_id, self.slot_id, self.adapter_id)
+        megacli(args)
+
     def mark_missing(self):
         """ Mark drive as missing """
         args = '-PDMarkMissing -PhysDrv [%i:%i] -a%i' % (self.enclosure_id, self.slot_id, self.adapter_id)
@@ -341,6 +352,13 @@ class PhysicalDevice:
     def remove_global_hot_spare(self):
         """ Unset drive as global hot spare """
         args = '-PDHSP -Rmv -PhysDrv [%i:%i] -a%i' % (self.enclosure_id, self.slot_id, self.adapter_id)
+        megacli(args)
+        self.reload()
+
+    def fix_foreign_status(self):
+        """ Automated fix of drives marked 'foreign' when inserted """
+        self.bad_to_good()
+        args = '-CfgForeign -Clear -a%i' % self.adapter_id
         megacli(args)
         self.reload()
 

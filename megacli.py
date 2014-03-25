@@ -1060,7 +1060,7 @@ def pd_list_unconfigured(drives=None):
     be passed. If no list of PD instances are supplied, they will be obtained
     automatically by pd_list() function.
 
-    @param drives: Optional List of PhysicalDevice instances returned by pd_list() 
+    @param drives: Optional List of PhysicalDevice instances returned by pd_list()
     """
 
     if drives:
@@ -1070,9 +1070,9 @@ def pd_list_unconfigured(drives=None):
             if not type(drive) == types.InstanceType:
                 raise TypeError('pd_list_unconfigured  method requires argument in form of list of PhysicalDevice instances')
     else:
-        drives = [ x for x in pd_list(i) for i in range(0, len(adp_list())) ]
+        drives = [ x for i in range(0, len(adp_list())) for x in pd_list(i) ]
     # returns in form of ['E:S', '...']
-    unconfigured = [ '%i:%i' % (p.enclosure_id, p.slot_id) for p in drives if p.is_unconfigured () ]
+    unconfigured = [ '%i:%i' % (p.enclosure_id, p.slot_id) for p in drives if p.is_unconfigured() ]
     # returns in form of [PhysicalDevice instance, ...]
     #unconfigured  = [ p for p in drives if p.is_unconfigured () ]
     return unconfigured
@@ -1084,9 +1084,16 @@ def pd_list_configured():
     This function searches all PhysicalDevice instances on all adapters
     and returns a list in the form of ['E:S', '...']
     """
-    drives = [ x for x in pd_list(i) for i in range(0, len(adp_list())) ]
+    drives = [ x for i in range(0, len(adp_list())) for x in pd_list(i) ]
     configured = [ '%i:%i' % (p.enclosure_id, p.slot_id) for p in drives if not p.is_configured() ]
     return configured
+
+def pd_list_bad():
+    """
+    """
+    drives = [ x for i in range(0, len(adp_list())) for x in pd_list(i) ]
+    bad = [ '%i:%i' % (p.enclosure_id, p.slot_id) for p in drives if 'Unconfigured(bad)' in p.firmware_state ]
+    return bad
 
 def str2bool(str):
     """

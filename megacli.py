@@ -1090,9 +1090,9 @@ def pd_list_unconfigured(drives=None):
     else:
         drives = [ x for i in range(0, len(adp_list())) for x in pd_list(i) ]
     # returns in form of ['E:S', '...']
-    unconfigured = [ '%i:%i' % (p.enclosure_id, p.slot_id) for p in drives if p.is_unconfigured() ]
+    unconfigured = [ '%i:%i' % (p.enclosure_id, p.slot_id) for p in drives if not p.is_configured() ]
     # returns in form of [PhysicalDevice instance, ...]
-    #unconfigured  = [ p for p in drives if p.is_unconfigured () ]
+    #unconfigured  = [ p for p in drives if not p.is_configured () ]
     return unconfigured
 
 def pd_list_configured():
